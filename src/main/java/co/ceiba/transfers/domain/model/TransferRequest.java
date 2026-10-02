@@ -8,6 +8,10 @@ public record TransferRequest(String sourceAccountId, String targetAccountId, Bi
         if (amount == null || amount.signum() <= 0) {
             throw new IllegalArgumentException("Amount must be greater than zero");
         }
+        if (sourceAccountId == null || sourceAccountId.isBlank()
+                || targetAccountId == null || targetAccountId.isBlank()) {
+            throw new IllegalArgumentException("Source and target accounts are required");
+        }
         if (sourceAccountId.equals(targetAccountId)) {
             throw new IllegalArgumentException("Source and target accounts must be different");
         }

@@ -3,6 +3,7 @@ package co.ceiba.transfers.infrastructure.adapter.in.web;
 import co.ceiba.transfers.domain.model.ReceiptLine;
 import co.ceiba.transfers.domain.model.TransferReceipt;
 import co.ceiba.transfers.domain.model.TransferRequest;
+import co.ceiba.transfers.domain.model.TransferRequestBuilder;
 import co.ceiba.transfers.infrastructure.config.DecoratorType;
 import co.ceiba.transfers.infrastructure.config.TransferChainFactory;
 import com.sun.net.httpserver.HttpExchange;
@@ -36,8 +37,9 @@ public class TransfersHandler extends JsonHandler {
         String body = new String(exchange.getRequestBody().readAllBytes(), StandardCharsets.UTF_8);
         Map<String, String> form = formParser.parse(body);
 
-        TransferRequest request = new TransferRequest(form.get("source"), form.get("target"),
-                new BigDecimal(form.getOrDefault("amount", "0")));
+        TransferRequest request = new TransferRequestBuilder()
+                .source(form.get("source")).target(form.get("target"))
+                .amount(new BigDecimal(form.getOrDefault("amount", "0"))).build();
         List<DecoratorType> decorators = parseDecorators(form.getOrDefault("decorators", ""));
 
         TransferReceipt receipt = chainFactory.build(decorators).transfer(request);
