@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Banco Ceiba · Transferencias</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="masthead">
+    <div class="brand">
+      <svg class="seal" viewBox="0 0 48 48" aria-hidden="true">
+        <circle cx="24" cy="24" r="22" fill="none" stroke="currentColor" stroke-width="2"/>
+        <path d="M24 9 C15 17 15 27 24 33 C33 27 33 17 24 9 Z M24 33 V40" fill="none" stroke="currentColor" stroke-width="2"/>
+      </svg>
+      <div>
+        <h1>Banco Ceiba</h1>
+        <p>Transferencias · Patrón Decorator</p>
+      </div>
+    </div>
+    <p class="hint">Cada capa activa envuelve a la transferencia base. El orden de la lista es de afuera hacia adentro.</p>
+  </header>
+
+  <main class="layout">
+    <section class="panel" aria-labelledby="form-title">
+      <h2 id="form-title">Nueva transferencia</h2>
+      <form id="transfer-form">
+        <label>Cuenta origen
+          <select id="source" required></select>
+        </label>
+        <label>Cuenta destino
+          <select id="target" required></select>
+        </label>
+        <label>Monto (COP)
+          <input id="amount" type="number" min="1" step="1" value="500000" required>
+        </label>
+
+        <h3>Capas de la transferencia</h3>
+        <ol id="layers" class="layers"></ol>
+        <div class="core">Transferencia base · débito y crédito</div>
+
+        <button type="submit">Transferir</button>
+      </form>
+    </section>
+
+    <section class="receipt-wrap" aria-live="polite">
+      <article id="receipt" class="receipt empty">
+        <p class="placeholder">El comprobante aparecerá aquí.</p>
+      </article>
+    </section>
+
+    <section class="panel">
+      <h2>Cuentas</h2>
+      <table class="accounts">
+        <thead><tr><th>Cuenta</th><th>Banco</th><th class="num">Saldo</th></tr></thead>
+        <tbody id="accounts"></tbody>
+      </table>
+      <h2>Bitácora</h2>
+      <ul id="audit" class="log"></ul>
+    </section>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
