@@ -46,23 +46,6 @@ public class JsonWriter {
     }
 
     private String escape(String text) {
-        StringBuilder escaped = new StringBuilder();
-        for (int index = 0; index < text.length(); index++) {
-            char character = text.charAt(index);
-            switch (character) {
-                case '\\' -> escaped.append("\\\\");
-                case '"' -> escaped.append("\\\"");
-                case '\n' -> escaped.append("\\n");
-                case '\r' -> escaped.append("\\r");
-                case '\t' -> escaped.append("\\t");
-                case '\b' -> escaped.append("\\b");
-                case '\f' -> escaped.append("\\f");
-                default -> {
-                    if (character < 0x20) escaped.append(String.format("\\u%04x", (int) character));
-                    else escaped.append(character);
-                }
-            }
-        }
-        return escaped.toString();
+        return text.replace("\\", "\\\\").replace("\"", "\\\"").replace("\n", "\\n");
     }
 }

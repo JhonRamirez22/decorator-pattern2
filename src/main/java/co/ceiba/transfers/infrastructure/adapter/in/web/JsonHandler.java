@@ -28,7 +28,6 @@ public abstract class JsonHandler implements HttpHandler {
     private void sendJson(HttpExchange exchange, int status, Object body) throws IOException {
         byte[] bytes = jsonWriter.write(body).getBytes(StandardCharsets.UTF_8);
         exchange.getResponseHeaders().set("Content-Type", "application/json; charset=utf-8");
-        exchange.getResponseHeaders().set("Cache-Control", "no-store");
         exchange.sendResponseHeaders(status, bytes.length);
         try (OutputStream output = exchange.getResponseBody()) {
             output.write(bytes);
