@@ -1,0 +1,15 @@
+FROM eclipse-temurin:17-jdk-jammy AS build
+WORKDIR /app
+COPY src ./src
+RUN mkdir -p out \
+    && find src/main/java -name '*.java' -print > sources.txt \
+    && javac --release 17 -encoding UTF-8 -d out @sources.txt \
+    && cp -R src/main/resources/. out/ \
+    && jar --create --file app.jar --main-class co.ceiba.transfers.Application -C out .
+
+FROM eclipse-temurin:17-jre-jammy
+WORKDIR /app
+COPY --from=build /app/app.jar ./app.jar
+ENV PORT=80
+EXPOSE 80
+CMD ["java", "-XX:MaxRAMPercentage=75", "-jar", "/app/app.jar"]
